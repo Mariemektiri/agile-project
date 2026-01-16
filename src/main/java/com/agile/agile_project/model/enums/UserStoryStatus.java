@@ -1,4 +1,8 @@
 package com.agile.agile_project.model.enums;
 
-public class UserStoryStatus {
+public enum UserStoryStatus {
+    TODO,
+    IN_PROGRESS,
+    DONE
 }
+
