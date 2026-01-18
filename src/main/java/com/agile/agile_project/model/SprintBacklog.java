@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class ProductBacklog {
+public class SprintBacklog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,11 +12,15 @@ public class ProductBacklog {
 
     private String name;
 
-    @OneToMany(mappedBy = "productBacklog", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "sprint_id")
+    private Sprint sprint;
+
+    @OneToMany(mappedBy = "sprintBacklog", cascade = CascadeType.ALL)
     private List<UserStory> userStories;
 
-    @OneToMany(mappedBy = "productBacklog", cascade = CascadeType.ALL)
-    private List<Epic> epics;
+    @OneToMany(mappedBy = "sprintBacklog", cascade = CascadeType.ALL)
+    private List<Task> tasks;
 
     // constructeurs, getters, setters
 }

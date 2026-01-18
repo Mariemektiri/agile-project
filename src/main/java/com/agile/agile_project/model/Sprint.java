@@ -19,5 +19,8 @@ public class Sprint {
 
     @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL)
     private List<UserStory> userStories;
+
+    @OneToOne(mappedBy = "sprint", cascade = CascadeType.ALL)
+    private SprintBacklog sprintBacklog;
 }
 

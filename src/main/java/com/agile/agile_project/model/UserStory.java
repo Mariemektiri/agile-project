@@ -2,8 +2,6 @@ package com.agile.agile_project.model;
 
 import com.agile.agile_project.model.enums.UserStoryStatus;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
-
 import java.util.List;
 
 @Entity
@@ -15,6 +13,9 @@ public class UserStory {
 
     private String title;
     private String description;
+
+    private int priority;                 // nouvelle exigence
+    private String acceptanceCriteria;    // nouvelle exigence
 
     @Enumerated(EnumType.STRING)
     private UserStoryStatus status;
@@ -28,9 +29,11 @@ public class UserStory {
     private ProductBacklog productBacklog;
 
     @ManyToOne
-    @JoinColumn(name = "sprint_id")
-    private Sprint sprint;
+    @JoinColumn(name = "sprint_backlog_id")
+    private SprintBacklog sprintBacklog;
 
     @OneToMany(mappedBy = "userStory", cascade = CascadeType.ALL)
     private List<Task> tasks;
+
+    // constructeurs, getters, setters
 }
