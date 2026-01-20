@@ -2,9 +2,15 @@ package com.agile.agile_project.model;
 
 import com.agile.agile_project.model.enums.UserStoryStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+
 public class UserStory {
 
     @Id
@@ -34,6 +40,12 @@ public class UserStory {
 
     @OneToMany(mappedBy = "userStory", cascade = CascadeType.ALL)
     private List<Task> tasks;
+
+    @ManyToOne
+    @JoinColumn(name = "sprint_id")
+    private Sprint sprint;
+
+
 
     // constructeurs, getters, setters
 }

@@ -1,4 +1,8 @@
 package com.agile.agile_project.repository;
 
-public class TaskRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.agile.agile_project.model.Task;
+
+public interface TaskRepository extends JpaRepository<Task, Long> {
 }
+

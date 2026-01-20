@@ -2,8 +2,13 @@ package com.agile.agile_project.model;
 
 import com.agile.agile_project.model.enums.TaskStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+
 public class Task {
 
     @Id
@@ -15,6 +20,11 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
+
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_story_id")

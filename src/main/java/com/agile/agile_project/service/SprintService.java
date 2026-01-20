@@ -1,4 +1,6 @@
 package com.agile.agile_project.service;
 
-public class SprintService {
+import com.agile.agile_project.model.Sprint;
+
+public interface SprintService extends CrudService<Sprint, Long> {
 }

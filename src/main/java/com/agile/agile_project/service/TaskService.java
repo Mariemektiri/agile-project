@@ -1,4 +1,10 @@
 package com.agile.agile_project.service;
 
-public class TaskService {
+import com.agile.agile_project.model.Task;
+import com.agile.agile_project.model.enums.TaskStatus;
+
+import java.util.List;
+
+public interface TaskService extends CrudService<Task, Long> {
+    Task changeStatus(Long id, TaskStatus status);
 }

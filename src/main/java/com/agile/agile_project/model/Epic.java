@@ -1,9 +1,15 @@
 package com.agile.agile_project.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+
 public class Epic {
 
     @Id
