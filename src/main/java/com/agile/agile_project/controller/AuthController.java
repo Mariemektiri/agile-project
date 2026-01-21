@@ -28,6 +28,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody User loginRequest) {
+        System.out.println("🔥 LOGIN CONTROLLER REACHED 🔥");
 
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow();

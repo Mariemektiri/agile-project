@@ -25,15 +25,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+
+                        // PUBLIC
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/**").authenticated()
+
+                        // ROLE BASED ACCESS
+                        .requestMatchers("/api/users/**").hasAnyRole("PO", "SCRUM_MASTER")
+                        .requestMatchers("/api/productbacklogs/**").hasRole("PO")
+                        .requestMatchers("/api/sprint/**").hasRole("SCRUM_MASTER")
+                        .requestMatchers("/api/tasks/**").hasRole("DEV")
+
+                        // EVERYTHING ELSE
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -42,3 +50,4 @@ public class SecurityConfig {
     }
 
 }
+
