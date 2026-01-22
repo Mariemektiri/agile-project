@@ -1,5 +1,6 @@
 package com.agile.agile_project.controller;
 
+import com.agile.agile_project.dto.LoginRequest;
 import com.agile.agile_project.model.User;
 import com.agile.agile_project.repository.UserRepository;
 import com.agile.agile_project.security.JwtUtil;
@@ -27,16 +28,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User loginRequest) {
-        System.out.println("🔥 LOGIN CONTROLLER REACHED 🔥");
+    public String login(@RequestBody LoginRequest loginRequest) {
 
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow();
 
         if (!encoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return "Invalid credentials";
+            throw new RuntimeException("Invalid credentials");
         }
 
         return jwtUtil.generateToken(user);
     }
+
 }

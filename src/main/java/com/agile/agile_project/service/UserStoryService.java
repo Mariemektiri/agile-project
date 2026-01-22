@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface UserStoryService extends CrudService<UserStory, Long> {
     UserStory changeStatus(Long id, UserStoryStatus status);
+
+    UserStory assignToSprint(Long userStoryId, Long sprintId, Long sprintBacklogId);
+
 }

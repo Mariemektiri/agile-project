@@ -1,9 +1,13 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.model.Sprint;
+import com.agile.agile_project.model.SprintBacklog;
 import com.agile.agile_project.model.UserStory;
 import com.agile.agile_project.model.enums.UserStoryStatus;
 import com.agile.agile_project.repository.UserStoryRepository;
 import com.agile.agile_project.service.UserStoryService;
+import com.agile.agile_project.repository.SprintRepository;
+import com.agile.agile_project.repository.SprintBacklogRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -11,9 +15,14 @@ import java.util.List;
 public class UserStoryServiceImpl implements UserStoryService {
 
     private final UserStoryRepository repository;
+    private final SprintRepository sprintRepository;
+    private final SprintBacklogRepository sprintBacklogRepository;
 
-    public UserStoryServiceImpl(UserStoryRepository repository) {
+    public UserStoryServiceImpl(UserStoryRepository repository,SprintRepository sprintRepository,
+                                SprintBacklogRepository sprintBacklogRepository) {
         this.repository = repository;
+        this.sprintRepository = sprintRepository;
+        this.sprintBacklogRepository = sprintBacklogRepository;
     }
 
     @Override
@@ -43,6 +52,23 @@ public class UserStoryServiceImpl implements UserStoryService {
         us.setStatus(status);
         return repository.save(us);
     }
+    @Override
+    public UserStory assignToSprint(Long userStoryId, Long sprintId, Long sprintBacklogId) {
+        UserStory userStory = repository.findById(userStoryId)
+                .orElseThrow(() -> new RuntimeException("UserStory not found"));
+
+        Sprint sprint = sprintRepository.findById(sprintId)
+                .orElseThrow(() -> new RuntimeException("Sprint not found"));
+
+        SprintBacklog sprintBacklog = sprintBacklogRepository.findById(sprintBacklogId)
+                .orElseThrow(() -> new RuntimeException("SprintBacklog not found"));
+
+        userStory.setSprint(sprint);
+        userStory.setSprintBacklog(sprintBacklog);
+
+        return repository.save(userStory);
+    }
+
 }
 
 

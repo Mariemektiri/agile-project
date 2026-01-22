@@ -2,6 +2,7 @@ package com.agile.agile_project.controller;
 
 import com.agile.agile_project.model.User;
 import com.agile.agile_project.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class UserController {
         return userService.save(user);
     }
 
+    @PreAuthorize("hasAnyRole('PO','SCRUM_MASTER')")
     @GetMapping
     public List<User> getAll() {
         return userService.getAll();

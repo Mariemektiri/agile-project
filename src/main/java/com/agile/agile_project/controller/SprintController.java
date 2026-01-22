@@ -2,6 +2,7 @@ package com.agile.agile_project.controller;
 
 import com.agile.agile_project.model.Sprint;
 import com.agile.agile_project.service.SprintService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class SprintController {
         this.service = service;
     }
 
+    @PreAuthorize("hasRole('SCRUM_MASTER')")
     @PostMapping
     public Sprint create(@RequestBody Sprint sprint) {
         return service.save(sprint);
     }
 
+    @PreAuthorize("hasAnyRole('PO','SCRUM_MASTER')")
     @GetMapping
     public List<Sprint> getAll() {
         return service.getAll();
