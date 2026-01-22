@@ -3,6 +3,7 @@ package com.agile.agile_project.service.Impl;
 import com.agile.agile_project.model.Sprint;
 import com.agile.agile_project.model.SprintBacklog;
 import com.agile.agile_project.model.UserStory;
+import com.agile.agile_project.model.enums.MoscowPriority;
 import com.agile.agile_project.model.enums.UserStoryStatus;
 import com.agile.agile_project.repository.UserStoryRepository;
 import com.agile.agile_project.service.UserStoryService;
@@ -68,6 +69,22 @@ public class UserStoryServiceImpl implements UserStoryService {
 
         return repository.save(userStory);
     }
+
+    public UserStory changePriority(Long id, int priority) {
+        UserStory us = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("UserStory not found"));
+        us.setPriority(priority);
+        return repository.save(us);
+    }
+
+    public UserStory changeMoscowPriority(Long id, MoscowPriority priority) {
+        UserStory us = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("UserStory not found"));
+        us.setMoscowPriority(priority);
+        return repository.save(us);
+    }
+
+
 
 }
 

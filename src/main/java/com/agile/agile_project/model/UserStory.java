@@ -1,5 +1,6 @@
 package com.agile.agile_project.model;
 
+import com.agile.agile_project.model.enums.MoscowPriority;
 import com.agile.agile_project.model.enums.UserStoryStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +26,10 @@ public class UserStory {
 
     @Enumerated(EnumType.STRING)
     private UserStoryStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private MoscowPriority moscowPriority;
+
 
     @ManyToOne
     @JoinColumn(name = "epic_id")
