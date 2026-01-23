@@ -1,5 +1,6 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.exception.UserNotFoundException;
 import com.agile.agile_project.model.User;
 import com.agile.agile_project.repository.UserRepository;
 import com.agile.agile_project.service.UserService;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override

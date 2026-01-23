@@ -4,8 +4,11 @@ import com.agile.agile_project.model.ProductBacklog;
 import com.agile.agile_project.repository.ProductBacklogRepository;
 import com.agile.agile_project.service.ProductBacklogService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
+@Transactional
 @Service
 public class ProductBacklogServiceImpl implements ProductBacklogService {
 

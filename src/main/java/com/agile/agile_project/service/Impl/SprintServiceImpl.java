@@ -4,9 +4,11 @@ import com.agile.agile_project.model.Sprint;
 import com.agile.agile_project.repository.SprintRepository;
 import com.agile.agile_project.service.SprintService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class SprintServiceImpl implements SprintService {
 

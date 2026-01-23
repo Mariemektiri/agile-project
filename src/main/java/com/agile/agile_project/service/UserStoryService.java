@@ -4,8 +4,6 @@ import com.agile.agile_project.model.UserStory;
 import com.agile.agile_project.model.enums.MoscowPriority;
 import com.agile.agile_project.model.enums.UserStoryStatus;
 
-import java.util.List;
-
 public interface UserStoryService extends CrudService<UserStory, Long> {
     UserStory changeStatus(Long id, UserStoryStatus status);
 
@@ -14,5 +12,6 @@ public interface UserStoryService extends CrudService<UserStory, Long> {
     UserStory changePriority(Long id, int priority);
 
     UserStory changeMoscowPriority(Long id, MoscowPriority priority);
+
 
 }

@@ -8,6 +8,8 @@ import com.agile.agile_project.repository.TaskRepository;
 import com.agile.agile_project.repository.UserRepository;
 import com.agile.agile_project.service.TaskService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -42,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
         repository.deleteById(id);
     }
 
+    @Transactional
     public Task assignToDeveloper(Long taskId, Long devId) {
         Task task = repository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
