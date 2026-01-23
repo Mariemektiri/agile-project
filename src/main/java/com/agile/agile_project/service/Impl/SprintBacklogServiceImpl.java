@@ -1,5 +1,6 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.exception.SprintBacklogNotFoundException;
 import com.agile.agile_project.model.SprintBacklog;
 import com.agile.agile_project.repository.SprintBacklogRepository;
 import com.agile.agile_project.service.SprintBacklogService;
@@ -8,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
 @Service
+@Transactional
 public class SprintBacklogServiceImpl implements SprintBacklogService {
 
     private final SprintBacklogRepository repository;
@@ -26,7 +27,7 @@ public class SprintBacklogServiceImpl implements SprintBacklogService {
     @Override
     public SprintBacklog getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("SprintBacklog not found"));
+                .orElseThrow(() -> new SprintBacklogNotFoundException(id));
     }
 
     @Override
@@ -36,6 +37,9 @@ public class SprintBacklogServiceImpl implements SprintBacklogService {
 
     @Override
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new SprintBacklogNotFoundException(id);
+        }
         repository.deleteById(id);
     }
 }

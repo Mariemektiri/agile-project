@@ -1,15 +1,9 @@
 package com.agile.agile_project.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-
 public class ProductBacklog {
 
     @Id
@@ -24,5 +18,39 @@ public class ProductBacklog {
     @OneToMany(mappedBy = "productBacklog", cascade = CascadeType.ALL)
     private List<Epic> epics;
 
-    // constructeurs, getters, setters
+    // Constructors
+    public ProductBacklog() {}
+
+    // Getters & Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<UserStory> getUserStories() {
+        return userStories;
+    }
+
+    public void setUserStories(List<UserStory> userStories) {
+        this.userStories = userStories;
+    }
+
+    public List<Epic> getEpics() {
+        return epics;
+    }
+
+    public void setEpics(List<Epic> epics) {
+        this.epics = epics;
+    }
 }

@@ -1,5 +1,8 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.exception.BusinessRuleException;
+import com.agile.agile_project.exception.TaskNotFoundException;
+import com.agile.agile_project.exception.UserNotFoundException;
 import com.agile.agile_project.model.Task;
 import com.agile.agile_project.model.User;
 import com.agile.agile_project.model.enums.Role;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
@@ -31,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @Override
@@ -41,30 +45,36 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new TaskNotFoundException(id);
+        }
         repository.deleteById(id);
     }
 
-    @Transactional
+    @Override
+    public Task changeStatus(Long id, TaskStatus status) {
+        Task task = getById(id);
+        task.setStatus(status);
+        return repository.save(task);
+    }
+
+    @Override
     public Task assignToDeveloper(Long taskId, Long devId) {
+
         Task task = repository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new TaskNotFoundException(taskId));
 
         User dev = userRepository.findById(devId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(devId));
 
+        // 🔴 Business rule
         if (dev.getRole() != Role.DEV) {
-            throw new RuntimeException("User is not a developer");
+            throw new BusinessRuleException(
+                    "Only users with DEV role can be assigned to tasks"
+            );
         }
 
         task.setDeveloper(dev);
         return repository.save(task);
-    }
-
-
-    @Override
-    public Task changeStatus(Long id, TaskStatus status) {
-        Task t = getById(id);
-        t.setStatus(status);
-        return repository.save(t);
     }
 }

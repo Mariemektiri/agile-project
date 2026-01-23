@@ -1,5 +1,6 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.exception.ProductBacklogNotFoundException;
 import com.agile.agile_project.model.ProductBacklog;
 import com.agile.agile_project.repository.ProductBacklogRepository;
 import com.agile.agile_project.service.ProductBacklogService;
@@ -8,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
 @Service
+@Transactional
 public class ProductBacklogServiceImpl implements ProductBacklogService {
 
     private final ProductBacklogRepository repository;
@@ -26,7 +27,7 @@ public class ProductBacklogServiceImpl implements ProductBacklogService {
     @Override
     public ProductBacklog getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ProductBacklog not found"));
+                .orElseThrow(() -> new ProductBacklogNotFoundException(id));
     }
 
     @Override
@@ -36,7 +37,9 @@ public class ProductBacklogServiceImpl implements ProductBacklogService {
 
     @Override
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ProductBacklogNotFoundException(id);
+        }
         repository.deleteById(id);
     }
 }
-

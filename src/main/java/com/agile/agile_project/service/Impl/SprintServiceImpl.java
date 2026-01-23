@@ -1,5 +1,6 @@
 package com.agile.agile_project.service.Impl;
 
+import com.agile.agile_project.exception.SprintNotFoundException;
 import com.agile.agile_project.model.Sprint;
 import com.agile.agile_project.repository.SprintRepository;
 import com.agile.agile_project.service.SprintService;
@@ -8,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
 @Service
+@Transactional
 public class SprintServiceImpl implements SprintService {
 
     private final SprintRepository sprintRepository;
@@ -26,7 +27,7 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public Sprint getById(Long id) {
         return sprintRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sprint not found"));
+                .orElseThrow(() -> new SprintNotFoundException(id));
     }
 
     @Override
@@ -36,6 +37,9 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public void delete(Long id) {
+        if (!sprintRepository.existsById(id)) {
+            throw new SprintNotFoundException(id);
+        }
         sprintRepository.deleteById(id);
     }
 }
